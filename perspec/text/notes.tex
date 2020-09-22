@@ -15,13 +15,11 @@
 
 Let $x,y,z$ be a coordinate system such that the camera is at the
 origin, the floor is some known depth below the $x,y$ plane, and
-positive $z$ is the current direction of motion of the robot.
-
-We write
+positive $z$ is the current direction of motion of the robot. We write
 \begin{equation}
   \r = x\i + y\j + z\k
 \end{equation}
-where $\i,\j,\k$ can be considered unit vectors or quaternions.  They
+where $\i,\j,\k$ can be considered unit vectors or quaternions.  These
 can be conveniently represented as the complex matrices
 \begin{equation}
 \i = \begin{pmatrix} 0 & i  \\ i & 0  \end{pmatrix} \qquad
@@ -34,10 +32,8 @@ The camera is at some orientation given by the quaternion $\q$ as
 \begin{equation}
 \r' = \q \, \r \, \q^*
 \end{equation}
-Let $z'$ be the forward direction of the camera.
-
-Let $f$ be the focal distance.  Then the camera-plane coordinates will
-be
+such that $z'$ is the forward direction of the camera.  Let $f$ be the
+focal distance.  Then the camera-plane coordinates will be
 \begin{equation}
   \begin{pmatrix} X' \\ Y' \end{pmatrix} =
   f \begin{pmatrix} x'/z' \\ y'/z' \end{pmatrix}
@@ -48,22 +44,40 @@ calibration
   X,Y = K(X',Y')
 \end{equation}
 
-Consider two frames, between which the robot moves by $\Delta z$.
+Consider two snapshots, between which the robot moves by $\Delta z$.
 That is, the world coordinate system moves by $-\Delta z$.  This
 results in visual vectors
 \begin{equation}
   \begin{pmatrix} \Delta X \\ \Delta Y \end{pmatrix}
 \end{equation}
 
-\section{Simplest case}
+\section{Lens-calibrated case}
 
-Let us assume that $\q$ and $K$ are identity.  Then
+We assume that $K$ has been calibrated out to the identity.  Then
 \begin{equation}
-   \begin{pmatrix} \Delta X \\ \Delta Y \end{pmatrix} =
--f \begin{pmatrix} X \\ Y \end{pmatrix} \Delta z
+  \Delta\r' = - \q \, \k \, \q^* \, \Delta z
 \end{equation}
 
+Suppose first that $\q=1$.  Then
+\begin{equation}
+   \begin{pmatrix} \Delta X \\ \Delta Y \end{pmatrix} =
+   f \begin{pmatrix} x \\ y \end{pmatrix}
+   \left(1/z-1/(z-\Delta z)\right)
+\end{equation}
+or (since $\Delta z$ is small)
+\begin{equation}
+   \begin{pmatrix} \Delta X \\ \Delta Y \end{pmatrix} =
+-f \, \frac{\Delta z}z \begin{pmatrix} X \\ Y \end{pmatrix}
+\end{equation}
+In this expression, all the visual vectors point to the origin of the
+camera plane.  If we now know $f$ and $\Delta z$, we have $z$.
 
-
+If $\q\neq1$ the visual vectors will still all point to a single
+point, namely the vanishing point corresponding to the direction of
+motion in camera coordinates.  This fact suggests a simple strategy
+for calibrating the pitch and yaw of the camera: find $\q$ so as to
+move the vanishing point of the visual vectors to the origin.
+Determining the roll (or the $\k$ component of $\q$) is harder, but
+maybe not necessary.
 
 \end{document}
