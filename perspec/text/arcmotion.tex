@@ -1,0 +1,58 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+
+\noindent Consider a robot moving by distance $\Delta s$ in an arc of a
+circle of radius $R$.  To be precise, $\Delta s$ is the arc length
+moved by a point between the differentially rotating wheels.
+
+The camera focal point is forward by a known distance $c$ from that
+point.  The camera is pointing forward (for now) and its height is
+known but not important (for now).  The camera focal point is the
+origin of coordinates: $x$ is to the right, $y$ is down, and $z$ is
+forward.  In the camera plane $X$ is to the right and $Y$ is down.
+
+Let $\phi=\Delta s/R$.  The motion of the camera then amounts to
+moving back by $c$, left by $R$, rotating by $\phi$, and then
+reversing the translations in the new (rotated) coordinate system.  A
+point at $x,y,z$ will have new coordinates $x',y',z'$ given by
+\begin{equation}
+  \begin{pmatrix} x' + R \\ y' \\ z' + c \end{pmatrix} =
+  \begin{pmatrix}
+    \cos\phi & 0 & \sin\phi \\
+    0        & 1 & 0 \\
+   -\sin\phi & 0 & \cos\phi
+  \end{pmatrix}
+  \begin{pmatrix} x  + R \\ y \\ z  + c \end{pmatrix}
+\end{equation}
+We now introduce the visual vectors
+\begin{equation}
+\begin{aligned}
+  \Delta X &= \frac{x'}{z'}-\frac xz \\
+  \Delta Y &= \frac{y'}{z'}-\frac yz
+\end{aligned}
+\end{equation}
+Sorting through the algebra (a computer helps here) we get
+\begin{equation}\label{arrows}
+\begin{aligned}
+  \Delta X &= \frac Xz \Delta s + (X^2+Y^2 + c/z) \frac{\Delta s}R
+  + O\left(\Delta s^2/z\right) \\
+  \Delta Y &= \frac Yz \Delta s + XY \,\frac{\Delta s}R
+  + O\left(\Delta s^2/z\right)
+\end{aligned}
+\end{equation}
+The first terms on the right are the visual vectors radiating out from
+the vanishing point.  The following terms with $\Delta s/R$ are
+perturbations of these radial visual vectors.
+
+If $\Delta s$ and $R$ are known from wheel odometry, and their ratio
+is small, then the pixel values $X,Y$ and visual vectors
+$\Delta X,\Delta Y$
+through eqn.~\eqref{arrows} provide $x,y$ and $z$ with redundancy.
+
+As mentioned above, we have assumed for now that the camera is
+calibrated and pointing forward.
+
+\end{document}
