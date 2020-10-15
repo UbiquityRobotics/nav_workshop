@@ -7,7 +7,6 @@
 \noindent Consider a robot moving by distance $\Delta s$ in an arc of a
 circle of radius $R$.  To be precise, $\Delta s$ is the arc length
 moved by a point between the differentially rotating wheels.
-
 The camera focal point is forward by a known distance $c$ from that
 point.  The camera is pointing forward (for now) and its height is
 known but not important (for now).  The camera focal point is the
@@ -48,9 +47,9 @@ the vanishing point.  The following terms with $\Delta s/R$ are
 perturbations of these radial visual vectors.
 
 If $\Delta s$ and $R$ are known from wheel odometry, and their ratio
-is small, then the pixel values $X,Y$ and visual vectors
-$\Delta X,\Delta Y$
-through eqn.~\eqref{arrows} provide $x,y$ and $z$ with redundancy.
+is small, then the camera-plane values $X,Y$ and visual vectors
+$\Delta X,\Delta Y$ through eqn.~\eqref{arrows} provide $x,y$ and $z$
+with redundancy.
 
 As mentioned above, we have assumed for now that the camera is
 calibrated and pointing forward.
